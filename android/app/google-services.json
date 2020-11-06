@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "284700014567",
+    "firebase_url": "https://mobilitem2miage.firebaseio.com",
+    "project_id": "mobilitem2miage",
+    "storage_bucket": "mobilitem2miage.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:284700014567:android:f0e08e233ab4ff61d6af42",
+        "android_client_info": {
+          "package_name": "com.example.mobilitem2miage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "284700014567-nmlptn7o3e8f33npd06s1lnhm4pg69cr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3kjXala86CL4WEnugtZsYx1UtGFan_Wk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "284700014567-nmlptn7o3e8f33npd06s1lnhm4pg69cr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
