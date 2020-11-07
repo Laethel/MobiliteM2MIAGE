@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobilitem2miage/pages/HomePage.dart';
+import 'package:mobilitem2miage/client/ui/pages/HomePage.dart';
+import 'package:mobilitem2miage/server/ConfigManager.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      navigatorObservers: <NavigatorObserver>[ConfigManager.observer],
       home: HomePage(),
     );
   }
