@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobilitem2miage/client/ui/pages/HomePage.dart';
+import 'package:mobilitem2miage/client/ui/views/HomePage.dart';
 import 'package:mobilitem2miage/server/ConfigManager.dart';
 import 'package:provider/provider.dart';
 
