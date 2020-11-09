@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "284700014567-89rqcuft1pftq43ue9up01tgko60ioqb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobilitem2miage",
+            "certificate_hash": "07b260ab828cc1550277152f2be23ce10e38a775"
+          }
+        },
+        {
           "client_id": "284700014567-nmlptn7o3e8f33npd06s1lnhm4pg69cr.apps.googleusercontent.com",
           "client_type": 3
         }
