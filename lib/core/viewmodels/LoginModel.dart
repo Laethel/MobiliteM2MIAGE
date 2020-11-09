@@ -5,7 +5,7 @@ import 'package:mobilitem2miage/core/viewmodels/BaseModel.dart';
 
 class LoginModel extends BaseModel {
 
-  String message = "";
+  String messageError = "";
   AuthService auth = AuthService();
   TextEditingController mail = TextEditingController();
   TextEditingController password = TextEditingController();

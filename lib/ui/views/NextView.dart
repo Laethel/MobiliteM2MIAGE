@@ -27,7 +27,7 @@ class NextPageState extends State<NextPage> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: Text(authProvider.user.email),
+        child: Text(authProvider.user != null ? authProvider.user.email : " User is null"),
       ),
     );
   }

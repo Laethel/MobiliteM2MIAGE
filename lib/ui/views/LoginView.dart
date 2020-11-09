@@ -4,9 +4,7 @@ import 'package:mobilitem2miage/core/models/client/User.dart';
 import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
 import 'package:mobilitem2miage/core/viewmodels/LoginModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
-import 'package:mobilitem2miage/ui/views/Next2View.dart';
 import 'package:provider/provider.dart';
-import 'NextView.dart';
 import 'package:mobilitem2miage/core/models/server/Response.dart';
 
 class LoginView extends StatefulWidget {
@@ -60,15 +58,20 @@ class LoginViewState extends State<LoginView> {
                       ],
                     ),
                     onTap: () async {
-                      Response response = await model.auth.emailSignUp(User(mail: model.mail.text, name: "Andréa", firstName: "Christophe"), model.password.text);
+
+                      Response response = await model.auth.emailSignUp(
+                        User(
+                          mail: model.mail.text,
+                          name: "Andréa",
+                          firstName: "Christophe"
+                        ), model.password.text
+                      );
+
                       if (response.type == RESPONSE_TYPE.VALIDE) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Next2Page()),
-                        );
+                        Navigator.pushNamed(context, '/next');
                       } else {
                         setState(() {
-                          model.message = response.description;
+                          model.messageError = response.description;
                         });
                       }
                     },
@@ -95,62 +98,19 @@ class LoginViewState extends State<LoginView> {
                     ),
                     onTap: () async {
                       Response response = await model.auth.googleSignIn();
-                      /*
-                      if (response.isNewUser) {
-                        userProvider.add(
-                            User(
-                                name: model.auth.user.displayName.split(" ")[1],
-                                firstName: model.auth.user.displayName.split(" ")[0],
-                                mail: model.auth.user.email
-                            )
-                        );
+                      if (response.type == RESPONSE_TYPE.VALIDE) {
+                          Navigator.pushNamed(context, '/next');
+                      } else {
+                        setState(() {
+                          model.messageError = response.description;
+                        });
                       }
-                      */
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => NextPage()),
-                      );
                     },
                   )
               ),
             ),
 
-            MaterialButton(
-              child: Text("Create User"),
-              onPressed: () async {
-/*
-                userProvider.add(
-                  User(
-                    id: "1",
-                    name: "Andréa",
-                    firstName: "Christophe",
-                    mail: "andrea.christophe@gmail.com"
-                  )
-                );
-
-
-                List<User> users = await userProvider.fetch();
-
-                for(int i=0; i<users.length; i++) {
-
-                  print("User N°" + i.toString() + " - " + users[i].name + " - " + users[i].id);
-                }
-                */
-
-                //await userProvider.remove("qcZkyxLeZ1yu5JYMVXvc");
-
-                User user = await userProvider.getById("P9x6J2WQDZZHwWY4qyFg");
-                user.mail = "cacahuete@gmail.com";
-
-                await userProvider.update(
-                  user,
-                  "P9x6J2WQDZZHwWY4qyFg"
-                );
-
-              },
-            ),
-
-            Text(model.message)
+            Text(model.messageError)
 
           ],
         ),

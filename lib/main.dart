@@ -18,8 +18,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
+  final AnalyticsService analytics = AnalyticsService();
+
   @override
   Widget build(BuildContext context) {
+
+    /// Notify firebase of the opening of the application
+    analytics.eventAppOpen();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => locator<UserDao>()),
@@ -27,7 +34,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/login',
         navigatorObservers: <NavigatorObserver>[AnalyticsService.observer],
         onGenerateRoute: Router.generateRoute,
       )
