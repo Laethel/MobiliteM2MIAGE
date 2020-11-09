@@ -1,29 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:mobilitem2miage/client/services/AuthManager.dart';
-import 'package:mobilitem2miage/client/services/HashService.dart';
-import 'package:mobilitem2miage/client/ui/views/LoginPage.dart';
-import 'package:mobilitem2miage/client/ui/views/NextPage.dart';
-import 'package:mobilitem2miage/server/ConfigManager.dart';
-import 'package:mobilitem2miage/server/FireStoreManager.dart';
-import 'package:mobilitem2miage/server/model/Event.dart';
-import 'package:mobilitem2miage/server/model/Response.dart';
+import 'package:mobilitem2miage/core/models/server/Event.dart';
+import 'package:mobilitem2miage/core/services/AnalyticsService.dart';
+import 'package:mobilitem2miage/core/services/AuthService.dart';
 
-class HomePage extends StatefulWidget {
+class HomeView extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
 
-    return HomePageState();
+    return HomeViewState();
   }
 }
 
-class HomePageState extends State<HomePage> {
+class HomeViewState extends State<HomeView> {
 
   String _message = "Nothing";
-  ConfigManager manager = ConfigManager();
-  AuthManager auth = AuthManager();
-  FireStoreManager store = FireStoreManager();
+  AnalyticsService manager = AnalyticsService();
+  AuthService auth = AuthService();
 
   @override
   void reassemble() async {
@@ -63,10 +56,7 @@ class HomePageState extends State<HomePage> {
             MaterialButton(
               child: Text("Go to Login page"),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                );
+                Navigator.pushNamed(context, '/login');
               }
             ),
             MaterialButton(
@@ -93,12 +83,6 @@ class HomePageState extends State<HomePage> {
                   );
 
                   changeMessage(result);
-                }
-            ),
-            MaterialButton(
-                child: const Text('Create Record'),
-                onPressed: () {
-                  this.store.createRecord();
                 }
             ),
             Text(_message)

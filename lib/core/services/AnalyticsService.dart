@@ -2,18 +2,16 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'dart:async';
 
 import 'package:firebase_analytics/observer.dart';
-import 'package:mobilitem2miage/server/IConfigManager.dart';
-import 'package:mobilitem2miage/server/model/Event.dart';
+import 'package:mobilitem2miage/core/models/server/Event.dart';
 
-class ConfigManager implements IConfigManager {
+class AnalyticsService  {
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
-  @override
   Future<String> sendAnalyticsEvent(Event event) async {
 
-    await ConfigManager.analytics.logEvent(
+    await AnalyticsService.analytics.logEvent(
       name: event.name,
       parameters: event.parameters,
     ).whenComplete(() => {
@@ -28,9 +26,8 @@ class ConfigManager implements IConfigManager {
     return event.result;
   }
 
-  @override
   void eventAppOpen() {
-    ConfigManager.analytics.logAppOpen().whenComplete(() => {
+    AnalyticsService.analytics.logAppOpen().whenComplete(() => {
 
       print("[Analytics] GOOD : " + "AppOpenEvent sent successfully.")
 

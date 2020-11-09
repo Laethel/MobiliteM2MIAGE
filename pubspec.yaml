@@ -25,6 +25,8 @@ dependencies:
   crypto: ^2.1.0
   common_utils: ^1.2.1
 
+  # Dependency Injection
+  get_it: ^1.0.3
 
   # Icons
   cupertino_icons: ^1.0.0
