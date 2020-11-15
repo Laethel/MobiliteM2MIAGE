@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mobilitem2miage/core/models/client/User.dart';
 import 'package:mobilitem2miage/core/services/FireStoreService.dart';
 import 'package:mobilitem2miage/core/services/dao/BaseDao.dart';
@@ -6,7 +5,8 @@ import 'package:mobilitem2miage/core/services/dao/BaseDao.dart';
 class UserDao extends BaseDao<User> {
 
   UserDao() {
-    super.firestore = FireStoreService('users');
+    super.collectionName = 'users';
+    super.firestore = FireStoreService(super.collectionName);
   }
 
   @override

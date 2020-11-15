@@ -1,5 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 enum RESPONSE_TYPE {
   VALIDE,
   ERROR

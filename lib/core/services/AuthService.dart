@@ -137,10 +137,11 @@ class AuthService extends ChangeNotifier {
 
   void signOut() {
 
-    _auth.signOut();
+    this._auth.signOut();
   }
 
   User get user {
+    this._auth = FirebaseAuth.instance;
     return this._auth.currentUser;
   }
 
