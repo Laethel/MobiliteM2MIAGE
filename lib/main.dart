@@ -10,6 +10,7 @@ import 'package:mobilitem2miage/ui/Router.dart';
 import 'package:provider/provider.dart';
 
 import 'core/services/AuthService.dart';
+import 'core/services/dao/PointOfInterestDao.dart';
 
 void main() async {
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => locator<PointOfInterestDao>()),
         ChangeNotifierProvider(create: (_) => locator<UserDao>()),
         ChangeNotifierProvider(create: (_) => locator<AuthService>()),
         ChangeNotifierProvider(create: (_) => locator<LocationService>()),
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        initialRoute: '/',
+        initialRoute: '/login',
         navigatorObservers: <NavigatorObserver>[AnalyticsService.observer],
         onGenerateRoute: Router.generateRoute,
       )

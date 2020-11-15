@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobilitem2miage/ui/views/AccountView.dart';
 import 'package:mobilitem2miage/ui/views/HomeView.dart';
+import 'package:mobilitem2miage/ui/views/MapView.dart';
 import 'package:mobilitem2miage/ui/views/LoginView.dart';
-import 'package:mobilitem2miage/ui/views/NextView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceView.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/' :
+      case '/home' :
         return  MaterialPageRoute(
             builder: (_)=> HomeView()
+        );
+      case '/map' :
+        return  MaterialPageRoute(
+            builder: (_)=> MapView()
         );
       case '/login' :
         return MaterialPageRoute(
             builder: (_)=> LoginView()
         );
-      case '/next' :
+      case '/place' :
         return MaterialPageRoute(
-            builder: (_)=> NextPage()
+            builder: (_)=> PlaceView()
+        );
+      case '/account' :
+        return MaterialPageRoute(
+            builder: (_)=> AccountView()
         );
       default:
         return MaterialPageRoute(

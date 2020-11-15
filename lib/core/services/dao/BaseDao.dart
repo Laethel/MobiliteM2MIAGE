@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobilitem2miage/core/services/FireStoreService.dart';
-import 'package:mobilitem2miage/ui/Locator.dart';
 
 class BaseDao<T> extends ChangeNotifier {
 
+  String collectionName;
   FireStoreService firestore;
   List<T> objects;
   T object;
@@ -12,6 +11,9 @@ class BaseDao<T> extends ChangeNotifier {
   Future<List<T>> fetch() async {}
 
   Future<T> getById(String id) async {}
+
+  /// TODO : Implémenter cette méthode
+  Future<T> getByQuery(String id) async {}
 
   Future remove(String id) async {}
 

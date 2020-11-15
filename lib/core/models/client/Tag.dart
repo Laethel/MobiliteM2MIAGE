@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Tag {
 
   String label;
-  String googleType;
+  List<String> googleType;
   IconData icon;
   bool isActive;
 

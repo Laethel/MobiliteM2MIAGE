@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 
@@ -14,11 +12,10 @@ class LocationService extends ChangeNotifier {
 
   LocationService._internal();
 
+  Location location = new Location();
   LocationData currentLocation;
 
   Future<LocationData> getCurrentLocation() async {
-
-    Location location = new Location();
 
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;

@@ -1,17 +1,62 @@
-import 'dart:typed_data';
-import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:location/location.dart' as loc;
+import 'package:mobilitem2miage/core/models/client/Tag.dart';
 
 class PlaceService extends ChangeNotifier {
 
-  static String kGoogleApiKey = "AIzaSyC9BtXawYtyr2drCwE--ZtDPlOVLWT2lAQ";
+  static String kGoogleApiKey = "AIzaSyAXOHJNhVKks6HvFHj6Y5TYCxF3MJP1b9Y";
 
   GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
+
+  void initTags(List<Tag> tags) {
+
+    Map<String, IconData> tagsData = {
+      "Culture": FontAwesomeIcons.university,
+      "Sport": FontAwesomeIcons.dumbbell,
+      "Gastronomie": FontAwesomeIcons.utensils
+    };
+
+    tagsData.forEach((key, value) {
+      if (this.getGoogleType(key) != "None")  {
+        tags.add(
+            new Tag(
+                label: key,
+                googleType: this.getGoogleType(key),
+                icon: value,
+                isActive: false
+            )
+        );
+      }
+    });
+  }
+
+  List<String> getGoogleType(String key) {
+
+    /// TODO : Mettre ça dans un fichier JSON
+    switch(key) {
+      case "Culture":
+        return [
+          "touristattraction",
+          "museum"
+        ];
+        break;
+      case "Sport":
+        return [
+          "gym"
+        ];
+        break;
+      case "Gastronomie":
+        return [
+          "restaurant"
+        ];
+        break;
+      default:
+        return ["None"];
+        break;
+    }
+  }
 
   Future<List<PlacesSearchResult>> getNearbyPlaces(loc.LocationData center, String type) async {
 
@@ -27,13 +72,5 @@ class PlaceService extends ChangeNotifier {
       print("Error getting nearby place : " + response.errorMessage);
       return null;
     }
-  }
-
-  /// TODO : Mettre ça dans un service MapService
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
-    FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png)).buffer.asUint8List();
   }
 }
