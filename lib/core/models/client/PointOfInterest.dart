@@ -10,7 +10,7 @@ class PointOfInterest {
 
   PointOfInterest({this.id, this.name, this.latitude, this.longitude, this.theme, this.subTheme});
 
-  PointOfInterest.fromMap(Map snapshot, String id) :
+  PointOfInterest.fromMap(Map snapshot) :
     id = snapshot['id'] ?? '',
     name = snapshot['name'] ?? '',
     latitude = snapshot['latitude'] ?? '',

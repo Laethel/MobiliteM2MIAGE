@@ -10,6 +10,7 @@ import 'package:mobilitem2miage/ui/Router.dart';
 import 'package:provider/provider.dart';
 
 import 'core/services/AuthService.dart';
+import 'core/services/SharedPreferencesService.dart';
 import 'core/services/dao/PointOfInterestDao.dart';
 
 void main() async {
@@ -47,7 +48,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<AuthService>()),
         ChangeNotifierProvider(create: (_) => locator<LocationService>()),
         ChangeNotifierProvider(create: (_) => locator<PlaceService>()),
-        ChangeNotifierProvider(create: (_) => locator<MapService>())
+        ChangeNotifierProvider(create: (_) => locator<MapService>()),
+        ChangeNotifierProvider(create: (_) => locator<SharedPreferencesService>())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

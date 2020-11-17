@@ -5,6 +5,7 @@ import 'package:mobilitem2miage/ui/views/HomeView.dart';
 import 'package:mobilitem2miage/ui/views/MapView.dart';
 import 'package:mobilitem2miage/ui/views/LoginView.dart';
 import 'package:mobilitem2miage/ui/views/PlaceView.dart';
+import 'package:mobilitem2miage/ui/views/SignUpView.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,6 +21,10 @@ class Router {
       case '/login' :
         return MaterialPageRoute(
             builder: (_)=> LoginView()
+        );
+      case '/signUp' :
+        return MaterialPageRoute(
+            builder: (_)=> SignUpView()
         );
       case '/place' :
         return MaterialPageRoute(

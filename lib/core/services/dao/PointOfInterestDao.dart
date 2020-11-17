@@ -11,7 +11,7 @@ class PointOfInterestDao extends BaseDao<PointOfInterest> {
   }
 
   @override
-  Future add(PointOfInterest data) async {
+  Future<void> add(PointOfInterest data) async {
 
     var result = await super.firestore.addDocument(data.toJson());
     return;
@@ -22,7 +22,7 @@ class PointOfInterestDao extends BaseDao<PointOfInterest> {
 
     var result = await super.firestore.getDataCollection();
     super.objects = result.docs
-        .map((doc) => PointOfInterest.fromMap(doc.data(), doc.id))
+        .map((doc) => PointOfInterest.fromMap(doc.data()))
         .toList();
     return super.objects;
   }
@@ -39,7 +39,7 @@ class PointOfInterestDao extends BaseDao<PointOfInterest> {
     if (result == null || result.docs.isEmpty) {
       return null;
     } else {
-      return PointOfInterest.fromMap(result.docs[0].data(), result.docs[0].id);
+      return PointOfInterest.fromMap(result.docs[0].data());
     }
   }
 

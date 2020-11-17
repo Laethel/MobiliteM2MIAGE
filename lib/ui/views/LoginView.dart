@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobilitem2miage/core/models/client/User.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mobilitem2miage/core/viewmodels/LoginModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
 import 'package:mobilitem2miage/core/models/server/Response.dart';
+import 'package:mobilitem2miage/ui/widgets/WTextField.dart';
 
 class LoginView extends StatefulWidget {
 
@@ -27,125 +29,200 @@ class LoginViewState extends State<LoginView> {
 
     return BaseView<LoginModel>(
       builder: (context, model, child) => Scaffold(
-        body: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Login"),
-
-              TextField(
-                controller: model.mail,
+        body: Container(
+          decoration: BoxDecoration(
+            color: Color(0xFF809cc5),
+            image: DecorationImage(
+              colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+              image: AssetImage("res/assets/img/loginBackground.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(30.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.transparent,
+                    spreadRadius: 5,
+                    blurRadius: 5,
+                    offset: Offset(0, 4), // changes position of shadow
+                  ),
+                ],
               ),
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Column(
+                  children: [
 
-              TextField(
-                controller: model.password,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                    height: 90,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey
+                    Image.asset(
+                      "res/assets/img/appLogo.png",
+                      width: 150.0,
+                      height: 150.0
                     ),
-                    child: InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0, left: 5.0, bottom: 10.0, right: 5.0),
+                      child: Column(
                         children: [
-                          Icon(Icons.email),
-                          Text(" S'inscrire")
+
+                          Container(
+                            color: Colors.white54,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              child: WTextField(
+                                label: "Identifiant",
+                                controller: model.mail,
+                                suffixIcon: Icon(Icons.email),
+                              ),
+                            ),
+                          ),
+
+                          SizedBox(height: 10.0),
+
+                          Container(
+                            color: Colors.white54,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              child: WTextField(
+                                label: "Mot de passe",
+                                controller: model.password,
+                                suffixIcon: Icon(Icons.lock),
+                                obscureText: true,
+                              )
+                            ),
+                          ),
+
                         ],
                       ),
-                      onTap: () async {
-
-                        Response response = await model.auth.emailSignUp(
-                          User(
-                            mail: model.mail.text,
-                            name: "Andréa",
-                            firstName: "Christophe"
-                          ), model.password.text
-                        );
-
-                        if (response.type == RESPONSE_TYPE.VALIDE) {
-                          Navigator.pushNamed(context, '/home');
-                        } else {
-                          setState(() {
-                            model.messageError = response.description;
-                          });
-                        }
-                      },
-                    )
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                    height: 90,
-                    width: 200,
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey
                     ),
-                    child: InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.email),
-                          Text(" Se connecter")
-                        ],
-                      ),
-                      onTap: () async {
 
-                        Response response = await model.auth.emailSignIn(model.mail.value.text, model.password.value.text);
-
-                        if (response.type == RESPONSE_TYPE.VALIDE) {
-                          Navigator.pushNamed(context, '/home');
-                        } else {
-                          setState(() {
-                            model.messageError = response.description;
-                          });
-                        }
-                      },
-                    )
-                ),
-              ),
-
-
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                    height: 90,
-                    width: 200,
-                    decoration: BoxDecoration(
+                    Text(
+                      model.getMessageError(),
+                      style: GoogleFonts.roboto(
+                        fontSize: 16.0,
                         color: Colors.redAccent
-                    ),
-                    child: InkWell(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.email),
-                          Text(" Google")
-                        ],
                       ),
-                      onTap: () async {
-                        Response response = await model.auth.googleSignIn();
-                        if (response.type == RESPONSE_TYPE.VALIDE) {
-                            Navigator.pushNamed(context, '/home');
-                        } else {
-                          setState(() {
-                            model.messageError = response.description;
-                          });
-                        }
-                      },
-                    )
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
-              ),
 
-              Text(model.messageError)
+                Column(
+                  children: [
+                    Material(
+                      borderRadius: BorderRadius.circular(80.0),
+                      elevation: 5.0,
+                      child: Container(
+                          height: 60,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              color: Colors.blueAccent,
+                              border: Border.all(style: BorderStyle.solid, color: Colors.transparent),
+                              borderRadius: BorderRadius.all(Radius.circular(80.0))
+                          ),
+                          child: InkWell(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Se connecter",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16.0,
+                                      color: Colors.white
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () async {
 
-            ],
+                              print("WOW : " + Timestamp.now().seconds.toString());
+                              Response response = await model.auth.emailSignIn(model.mail.value.text, model.password.value.text);
+
+                              if (response.type == RESPONSE_TYPE.VALIDE) {
+                                Navigator.pushNamed(context, '/home');
+                              } else {
+                                setState(() {
+                                  model.messageError = response.description;
+                                });
+                              }
+                            },
+                          )
+                      ),
+                    ),
+
+                    SizedBox(height: 20.0),
+
+                    Material(
+                      borderRadius: BorderRadius.circular(80.0),
+                      elevation: 5.0,
+                      child: Container(
+                          height: 60,
+                          width: 300,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(style: BorderStyle.solid, color: Colors.transparent),
+                              borderRadius: BorderRadius.all(Radius.circular(80.0))
+                          ),
+                          child: InkWell(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("res/assets/img/google-logo.png", height: 40.0, width: 40.0),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  "Se connecter avec Google",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 16.0,
+                                      color: Color(0xFF333333)
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () async {
+                              Response response = await model.auth.googleSignIn();
+                              if (response.type == RESPONSE_TYPE.VALIDE) {
+                                Navigator.pushNamed(context, '/home');
+                              } else {
+                                setState(() {
+                                  model.messageError = response.description;
+                                });
+                              }
+                            },
+                          )
+                      ),
+                    ),
+
+                    Container(
+                        height: 60,
+                        width: 300,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent
+                        ),
+                        child: InkWell(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Pas encore de compte ?",
+                                  style: GoogleFonts.roboto(
+                                      color: Color(0xFFEEEEEE),
+                                      fontSize: 16.0
+                                  ),
+                                )
+                              ],
+                            ),
+                            onTap: () => Navigator.pushNamed(context, '/signUp')
+                        )
+                    ),
+                  ],
+                )
+              ],
+            ),
+            ),
           ),
         ),
       )
