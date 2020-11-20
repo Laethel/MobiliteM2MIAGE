@@ -59,8 +59,7 @@ class PlaceViewState extends State<PlaceView> {
                                 padding: EdgeInsets.all(10.0),
                                 child: InkWell(
                                   onTap: () {
-                                    //appState.place = appState.placesLiked[index];
-                                    //Navigator.pushNamed(context, "/placeDetails");
+                                    Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesVisited[index]);
                                   },
                                   child: Card(
                                     child: Padding(
@@ -128,8 +127,7 @@ class PlaceViewState extends State<PlaceView> {
                               padding: EdgeInsets.all(10.0),
                               child: InkWell(
                                 onTap: () {
-                                  //appState.place = appState.placesLiked[index];
-                                  //Navigator.pushNamed(context, "/placeDetails");
+                                  Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesLiked[index]);
                                 },
                                 child: Card(
                                   child: Padding(
