@@ -10,6 +10,7 @@ import 'package:mobilitem2miage/ui/views/PlaceView.dart';
 import 'package:mobilitem2miage/ui/views/SearchUsersView.dart';
 import 'package:mobilitem2miage/ui/views/SignUpView.dart';
 import 'package:mobilitem2miage/ui/views/UserProfilView.dart';
+import 'package:google_maps_webservice/places.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -35,8 +36,9 @@ class Router {
             builder: (_)=> PlaceView()
         );
       case '/placeDetails' :
+        var place = settings.arguments as PlaceDetails;
         return MaterialPageRoute(
-            builder: (_)=> PlaceDetailsView()
+            builder: (_)=> PlaceDetailsView(place: place)
         );
       case '/account' :
         return MaterialPageRoute(

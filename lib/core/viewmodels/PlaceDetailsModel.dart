@@ -13,15 +13,14 @@ class PlaceDetailsModel extends BaseModel {
   Widget openingHoursWidget;
   String openNow;
   Map<String, Color> openNowColor;
-  PlaceDetails placeDetails;
   bool isFavorite = false;
   bool phoneIsAvailable = false;
 
-  Widget getOpeningHoursWidget() {
+  Widget getOpeningHoursWidget(PlaceDetails place) {
 
     List<Widget> openingHoursWidgets = new List<Widget>();
 
-    this.placeDetails.openingHours.weekdayText.forEach((openingHourString) {
+    place.openingHours.weekdayText.forEach((openingHourString) {
       openingHoursWidgets.add(Text(formatOpeningHours(openingHourString)));
     });
 

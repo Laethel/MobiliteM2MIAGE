@@ -13,6 +13,10 @@ import 'package:google_maps_webservice/places.dart';
 
 class PlaceDetailsView extends StatefulWidget {
 
+  PlaceDetails place;
+
+  PlaceDetailsView({this.place});
+
   @override
   State<StatefulWidget> createState() {
     return PlaceDetailsViewState();
@@ -32,25 +36,21 @@ class PlaceDetailsViewState extends State<PlaceDetailsView> {
 
         model.setState(ViewState.Busy);
 
-        PlacesDetailsResponse response = await placeProvider.getPlaceDetails(appState.place).then((value) {
-          model.placeDetails = value.result;
-          if (appState.place.openingHours == null) {
-            model.openNow = "Non renseigné";
-          } else {
-            appState.place.openingHours.openNow ? model.openNow = "Ouvert" : model.openNow = "Fermé";
-            model.openingHoursWidget = model.getOpeningHoursWidget();
-          }
+        if (widget.place.openingHours == null) {
+          model.openNow = "Non renseigné";
+        } else {
+          widget.place.openingHours.openNow ? model.openNow = "Ouvert" : model.openNow = "Fermé";
+          model.openingHoursWidget = model.getOpeningHoursWidget(widget.place);
+        }
 
-          /// Set favorites to true if present in placeLiked
-          if (appState.placesLiked.where((placeLiked) => placeLiked.placeId == model.placeDetails.placeId).length == 1) {
-            model.isFavorite = true;
-          }
+        /// Set favorites to true if present in placeLiked
+        if (appState.placesLiked.where((placeLiked) => placeLiked.placeId == widget.place.placeId).length == 1) {
+          model.isFavorite = true;
+        }
 
-          if (model.placeDetails.internationalPhoneNumber != null) {
-            model.phoneIsAvailable = true;
-          }
-          return;
-        });
+        if (widget.place.internationalPhoneNumber != null) {
+          model.phoneIsAvailable = true;
+        }
 
         model.openNowColor = {
           "Non renseigné" : Colors.grey,
@@ -62,7 +62,7 @@ class PlaceDetailsViewState extends State<PlaceDetailsView> {
       },
       builder: (context, model, child) => Scaffold(
         appBar: AppBar(
-          title: Text(appState.place.name),
+          title: Text(widget.place.name),
           backgroundColor: Color(0xFF809cc5),
           actions: [
             Padding(
@@ -71,9 +71,9 @@ class PlaceDetailsViewState extends State<PlaceDetailsView> {
                 onPressed: () {
                   model.isFavorite = !model.isFavorite;
                   if (model.isFavorite) {
-                    appState.placesLiked.add(model.placeDetails);
+                    appState.placesLiked.add(widget.place);
                   } else {
-                    appState.placesLiked.removeWhere((placeLiked) => placeLiked.placeId == model.placeDetails.placeId);
+                    appState.placesLiked.removeWhere((placeLiked) => placeLiked.placeId == widget.place.placeId);
                   }
                   model.notifyListeners();
                 },
@@ -112,8 +112,8 @@ class PlaceDetailsViewState extends State<PlaceDetailsView> {
                         IconButton(
                           onPressed: !model.phoneIsAvailable ? null : () async {
                             if (model.state == ViewState.Idle) {
-                              model.placeDetails.internationalPhoneNumber != null ? await FlutterPhoneDirectCaller.callNumber(model.placeDetails.internationalPhoneNumber) : print("Pas de numéro");
-                              print("Numéro : " + (model.placeDetails.internationalPhoneNumber != null ? model.placeDetails.internationalPhoneNumber : "pas de numéro"));
+                              widget.place.internationalPhoneNumber != null ? await FlutterPhoneDirectCaller.callNumber(widget.place.internationalPhoneNumber) : print("Pas de numéro");
+                              print("Numéro : " + (widget.place.internationalPhoneNumber != null ? widget.place.internationalPhoneNumber : "pas de numéro"));
                             }
                           },
                           icon: Icon(Icons.phone),
@@ -133,19 +133,19 @@ class PlaceDetailsViewState extends State<PlaceDetailsView> {
                 },
                 child: Image.network(
                   "https://maps.googleapis.com/maps/api/staticmap?" +
-                  "center=" + appState.currentPointOfInterest.latitude.toString() + "," + appState.currentPointOfInterest.longitude.toString() +
+                  "center=" + widget.place.geometry.location.lat.toString() + "," + widget.place.geometry.location.lng.toString() +
                   "&zoom=16" +
                   "&size=400x300" +
-                  "&markers=color:red|" + appState.currentPointOfInterest.latitude.toString() + "," + appState.currentPointOfInterest.longitude.toString() +
+                  "&markers=color:red|" + widget.place.geometry.location.lat.toString() + "," + widget.place.geometry.location.lng.toString() +
                   "&key=AIzaSyAXOHJNhVKks6HvFHj6Y5TYCxF3MJP1b9Y"
                 ),
               ),
 
-              Text(model.state != ViewState.Busy ? model.placeDetails.formattedAddress : ""),
+              Text(model.state != ViewState.Busy ? widget.place.formattedAddress : ""),
 
               FlatButton(
                 onPressed: () {
-                  appState.placesVisited.add(model.placeDetails);
+                  appState.placesVisited.add(widget.place);
                   Navigator.pop(context);
                 },
                 child: Text("J'y étais !"),

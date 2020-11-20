@@ -69,10 +69,11 @@ class MapModel extends BaseModel {
               ),
               infoWindow: InfoWindow(
                   onTap: () async {
-                    appState.place = place;
-                    appState.currentPointOfInterest = await pointOfInterestDao.getById(place.placeId);
-                    notifyListeners();
-                    Navigator.pushNamed(context, "/placeDetails");
+                    //appState.place = place;
+                    await placeProvider.getPlaceDetails(place).then((response) {
+                      Navigator.pushNamed(context, "/placeDetails", arguments: response.result);
+                      return;
+                    });
                   },
                   snippet: "Cliquez pour voir le détail",
                   title: place.name
