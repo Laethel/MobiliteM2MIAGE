@@ -1,57 +1,47 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobilitem2miage/core/enum/ViewState.dart';
 import 'package:mobilitem2miage/core/models/client/User.dart';
-import 'package:mobilitem2miage/core/services/AuthService.dart';
-import 'package:mobilitem2miage/core/services/RemoveBgService.dart';
-import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
-import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/utils/DateUtils.dart';
-import 'package:mobilitem2miage/core/viewmodels/AccountModel.dart';
+import 'package:mobilitem2miage/core/viewmodels/UserProfilModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
 import 'package:mobilitem2miage/ui/widgets/WTextField.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class AccountView extends StatefulWidget {
+class UserProfilView extends StatefulWidget {
+
+  User user;
+  UserProfilView({@required this.user});
 
   @override
   State<StatefulWidget> createState() {
-    return AccountViewState();
+    return UserProfilViewState();
   }
 }
 
-class AccountViewState extends State<AccountView> {
+class UserProfilViewState extends State<UserProfilView> {
 
   @override
   Widget build(BuildContext context) {
 
-    var userProvider = Provider.of<UserDao>(context);
-
-    var authProvider = Provider.of<AuthService>(context);
-    var removeBgProvider = Provider.of<RemoveBgService>(context);
-    var appState = Provider.of<AppState>(context);
-
-    return BaseView<AccountModel>(
+    return BaseView<UserProfilModel>(
       onModelReady: (model) async {
-        model.setState(ViewState.Busy);
 
-        /*try {
-          var response = await removeBgProvider.getImage("res/assets/img/macron.jpg");
-          model.imageBytes = response;
-          model.notifyListeners();
-        } catch(error) {
-          print("ERREUR");
-        }*/
-
-        model.setState(ViewState.Idle);
       },
       builder: (context, model, child) {
         return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Color(0xFF809cc5),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.clear),
+              )
+            ],
+          ),
           body: Container(
             decoration: BoxDecoration(
               color: Colors.white,
@@ -68,7 +58,7 @@ class AccountViewState extends State<AccountView> {
                 children: [
 
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         "Passeport",
@@ -76,18 +66,6 @@ class AccountViewState extends State<AccountView> {
                           fontSize: 26.0
                         ),
                       ),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () => Navigator.pushNamed(context, "/search"),
-                            icon: Icon(Icons.search),
-                          ),
-                          IconButton(
-                            onPressed: () => print("Recherche profils"),
-                            icon: Icon(Icons.message),
-                          ),
-                        ],
-                      )
                     ],
                   ),
 
@@ -164,7 +142,7 @@ class AccountViewState extends State<AccountView> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                     child: WTextField(
-                                      value: appState.user.lastName,
+                                      value: widget.user.lastName,
                                       enable: false,
                                       controller: TextEditingController(),
                                       fontSize: 14.0,
@@ -194,7 +172,7 @@ class AccountViewState extends State<AccountView> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                     child: WTextField(
-                                      value: appState.user.firstName,
+                                      value: widget.user.firstName,
                                       enable: false,
                                       controller: TextEditingController(),
                                       fontSize: 14.0,
@@ -224,7 +202,7 @@ class AccountViewState extends State<AccountView> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                     child: WTextField(
-                                      value: DateUtils.dateToString(DateTime.fromMillisecondsSinceEpoch(appState.user.birthday.millisecondsSinceEpoch)),
+                                      value: DateUtils.dateToString(DateTime.fromMillisecondsSinceEpoch(widget.user.birthday.millisecondsSinceEpoch)),
                                       enable: false,
                                       controller: TextEditingController(),
                                       fontSize: 14.0,
@@ -270,7 +248,7 @@ class AccountViewState extends State<AccountView> {
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 10.0, right: 10.0),
                                     child: WTextField(
-                                      value: appState.user.gender,
+                                      value: widget.user.gender,
                                       enable: false,
                                       controller: TextEditingController(),
                                       fontSize: 14.0,
@@ -284,17 +262,6 @@ class AccountViewState extends State<AccountView> {
 
                         ],
                       ),
-
-                      Divider(),
-
-                      Center(
-                        child: FlatButton(
-                          onPressed: () {
-                            model.alertDialog(context, authProvider);
-                          },
-                          child: Text("Se déconnecter"),
-                        ),
-                      )
                     ],
                   )
                 ],

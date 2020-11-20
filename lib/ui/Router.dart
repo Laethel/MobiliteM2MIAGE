@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobilitem2miage/core/models/client/User.dart';
 import 'package:mobilitem2miage/ui/views/AccountView.dart';
 import 'package:mobilitem2miage/ui/views/HomeView.dart';
 import 'package:mobilitem2miage/ui/views/MapView.dart';
 import 'package:mobilitem2miage/ui/views/LoginView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsView.dart';
 import 'package:mobilitem2miage/ui/views/PlaceView.dart';
+import 'package:mobilitem2miage/ui/views/SearchUsersView.dart';
 import 'package:mobilitem2miage/ui/views/SignUpView.dart';
+import 'package:mobilitem2miage/ui/views/UserProfilView.dart';
 
 class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,9 +34,22 @@ class Router {
         return MaterialPageRoute(
             builder: (_)=> PlaceView()
         );
+      case '/placeDetails' :
+        return MaterialPageRoute(
+            builder: (_)=> PlaceDetailsView()
+        );
       case '/account' :
         return MaterialPageRoute(
             builder: (_)=> AccountView()
+        );
+      case '/search' :
+        return MaterialPageRoute(
+            builder: (_)=> SearchUsersView()
+        );
+      case '/userProfil' :
+        var user = settings.arguments as User;
+        return MaterialPageRoute(
+            builder: (_)=> UserProfilView(user: user)
         );
       default:
         return MaterialPageRoute(

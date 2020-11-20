@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 
-class FireStoreService {
+class FireStoreService extends ChangeNotifier {
 
   FirebaseFirestore _db;
   final String path;

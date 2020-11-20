@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:flutter/cupertino.dart';
 import 'package:mobilitem2miage/core/services/AuthService.dart';
+import 'file:///C:/Users/andre/AndroidStudioProjects/mobilitem2miage/lib/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/BaseModel.dart';
 
 class LoginModel extends BaseModel {

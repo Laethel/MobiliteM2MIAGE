@@ -10,12 +10,16 @@ import 'package:mobilitem2miage/core/models/server/Response.dart';
 
 class WTextField extends StatefulWidget {
 
+  String value;
   String label;
   TextEditingController controller;
   Widget suffixIcon;
   bool obscureText;
+  bool enable;
+  double fontSize;
+  TextAlign textAlign;
 
-  WTextField({@required this.label, @required this.controller, this.suffixIcon, this.obscureText});
+  WTextField({@required this.value, this.label, @required this.controller, this.suffixIcon, this.obscureText, this.enable, this.fontSize, this.textAlign});
 
   @override
   State<StatefulWidget> createState() {
@@ -34,6 +38,7 @@ class WTextFieldState extends State<WTextField> {
 
   @override
   Widget build(BuildContext context) {
+
     return BaseView<WTextFieldModel>(
       builder: (context, model, child) => Theme(
         data: ThemeData(
@@ -42,13 +47,16 @@ class WTextFieldState extends State<WTextField> {
             hintColor: Color(0xFF333333)
         ),
         child: TextField(
+          enabled: widget.enable,
+          textAlign: widget.textAlign != null ? widget.textAlign : TextAlign.start,
           style: GoogleFonts.roboto(
-            fontSize: 18.0,
+            fontSize: widget.fontSize != null ? widget.fontSize : 18.0,
             color: Color(0xFF333333)
           ),
           focusNode: model.passwordFocusNode,
           controller: widget.controller,
           decoration: InputDecoration(
+            hintText: widget.value,
             border: InputBorder.none,
             errorText: false ? '' : null,
             suffixIcon: widget.suffixIcon,

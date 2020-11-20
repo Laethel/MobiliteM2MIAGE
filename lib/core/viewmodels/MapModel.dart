@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mobilitem2miage/core/enum/ViewState.dart';
 import 'package:mobilitem2miage/core/models/client/PointOfInterest.dart';
@@ -6,6 +7,7 @@ import 'package:mobilitem2miage/core/services/LocationService.dart';
 import 'package:mobilitem2miage/core/services/MapService.dart';
 import 'package:mobilitem2miage/core/services/PlaceService.dart';
 import 'package:mobilitem2miage/core/services/dao/PointOfInterestDao.dart';
+import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/BaseModel.dart';
 import 'package:google_maps_webservice/places.dart';
 
@@ -19,7 +21,7 @@ class MapModel extends BaseModel {
   GoogleMapController controller;
   Map<Marker, Tag> pins = Map<Marker, Tag>();
   List<PlacesSearchResult> places = List<PlacesSearchResult>();
-  List<Tag> tags = new List<Tag>();
+  List<Tag> tags = List<Tag>();
 
   Future<void> listenLocation(LocationService locationService) {
 
@@ -41,13 +43,13 @@ class MapModel extends BaseModel {
     });
   }
 
-  Future<void> displayPlacesByTag(Tag tag, PlaceService placeProvider, LocationService locationProvider, PointOfInterestDao pointOfInterestDao) async {
-
-    this.setState(ViewState.Busy);
+  Future<void> displayPlacesByTag(Tag tag, PlaceService placeProvider, LocationService locationProvider, PointOfInterestDao pointOfInterestDao, BuildContext context, AppState appState) async {
 
     tag.isActive = !tag.isActive;
     if (tag.isActive) {
 
+      setState(ViewState.Busy);
+      notifyListeners();
 
       /// For all googleType present on Tag
       /// Ex. : "Culture" containt "touristattraction" and "museum" googleType
@@ -66,8 +68,11 @@ class MapModel extends BaseModel {
                   )
               ),
               infoWindow: InfoWindow(
-                  onTap: () {
-                    print("click on : " + place.name + " place");
+                  onTap: () async {
+                    appState.place = place;
+                    appState.currentPointOfInterest = await pointOfInterestDao.getById(place.placeId);
+                    notifyListeners();
+                    Navigator.pushNamed(context, "/placeDetails");
                   },
                   snippet: "Cliquez pour voir le détail",
                   title: place.name
@@ -79,33 +84,37 @@ class MapModel extends BaseModel {
             PointOfInterest pointOfInterest = await pointOfInterestDao.getById(place.placeId);
             if (pointOfInterest == null) {
 
-              await pointOfInterestDao.add(
-                  new PointOfInterest(
-                      id: place.placeId,
-                      name: place.name,
-                      latitude: place.geometry.location.lat,
-                      longitude: place.geometry.location.lng,
-                      theme: tag.label.toLowerCase(),
-                      subTheme: googleType
-                  )
+              pointOfInterest =  new PointOfInterest(
+                  id: place.placeId,
+                  name: place.name,
+                  latitude: place.geometry.location.lat,
+                  longitude: place.geometry.location.lng,
+                  theme: tag.label.toLowerCase(),
+                  subTheme: googleType
               );
+              await pointOfInterestDao.add(pointOfInterest);
             }
 
             /// TODO : Le chargement se termine avant que les icons apparaissent sur la carte
-            this.setState(ViewState.Idle);
+            setState(ViewState.Idle);
+            notifyListeners();
 
           })
         }).catchError((error) {
           /// TODO : mettre un toast message
           print("No place found");
-          this.setState(ViewState.Idle);
+          setState(ViewState.Idle);
+          notifyListeners();
         });
       });
+
     } else {
       /// Remove markers where google type is equal to google type of theme which is remove
       /// exemple : remove all "cofee" google type when "Gastronomie" theme is removed
       this.pins.removeWhere((key, value) => value.googleType == tag.googleType);
-      this.setState(ViewState.Idle);
+
+      setState(ViewState.Idle);
+      notifyListeners();
     }
   }
 }

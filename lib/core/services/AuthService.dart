@@ -6,9 +6,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mobilitem2miage/core/models/client/User.dart' as model;
 import 'package:mobilitem2miage/core/models/server/Response.dart';
 import 'package:mobilitem2miage/core/services/AnalyticsService.dart';
-import 'package:mobilitem2miage/core/services/SharedPreferencesService.dart';
 import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class AuthService extends ChangeNotifier {
@@ -23,7 +21,6 @@ class AuthService extends ChangeNotifier {
   AuthService._internal();
 
   AnalyticsService analytics = AnalyticsService();
-  SharedPreferencesService preferences = SharedPreferencesService();
   UserDao userDao = UserDao();
 
   FirebaseAuth _auth;
@@ -55,12 +52,9 @@ class AuthService extends ChangeNotifier {
       user.id = uuid.v1();
       userDao.add(user);
 
-      /// Add user to local storage
-      this.preferences.save("user", user.toJson());
-
       /// Notify firebase of an account creation
       AnalyticsService.analytics.logSignUp(signUpMethod: "EmailSignUp");
-      response = Response(RESPONSE_TYPE.VALIDE, "User account well created.");
+      response = Response<model.User>(RESPONSE_TYPE.VALIDE, user);
 
       /// SignIn automatically after SignUp
       this.emailSignIn(user.email, password);
@@ -91,13 +85,12 @@ class AuthService extends ChangeNotifier {
           password: password
       );
 
-      /// Notify firebase of an user connexion
-      AnalyticsService.analytics.logLogin(loginMethod: "EmailSignIn");
-      response = Response(RESPONSE_TYPE.VALIDE, "User well authentificated.");
-
       /// Add user to local storage
       model.User user = await userDao.getById(email);
-      this.preferences.save("user", user.toJson());
+
+      /// Notify firebase of an user connexion
+      AnalyticsService.analytics.logLogin(loginMethod: "EmailSignIn");
+      response = Response<model.User>(RESPONSE_TYPE.VALIDE, user);
 
     }  on FirebaseAuthException catch (e) {
 
@@ -129,29 +122,23 @@ class AuthService extends ChangeNotifier {
 
       /// Notify firebase of an user connexion
       AnalyticsService.analytics.logLogin(loginMethod: "GoogleSignIn");
-      response = Response(RESPONSE_TYPE.VALIDE, "User well authentificated");
+
+      model.User user = model.User(
+          id: uuid.v1(),
+          lastName: this.user.displayName.split(" ")[1],
+          firstName: this.user.displayName.split(" ")[0],
+          email: this.user.email,
+          birthday: Timestamp.fromDate(DateTime.now()),
+          createdOn: Timestamp.fromDate(DateTime.now()),
+          gender: "N/A"
+      );
 
       /// If is a new user, then we create a new User in firestore
       if (userCredential.additionalUserInfo.isNewUser) {
-        await userDao.add(
-          model.User(
-            id: uuid.v1(),
-            lastName: this.user.displayName.split(" ")[1],
-            firstName: this.user.displayName.split(" ")[0],
-            email: this.user.email,
-            birthday: Timestamp.fromDate(DateTime.now()),
-            createdOn: Timestamp.fromDate(DateTime.now()),
-            gender: "N/A"
-          )
-        );
-        print('1');
+        await userDao.add(user);
       }
 
-      print('2');
-      /// Add user to local storage
-      print("EMAIL : " + this.user.email);
-      model.User user = await userDao.getById(this.user.email);
-      this.preferences.save("user", user.toJson());
+      response = Response<model.User>(RESPONSE_TYPE.VALIDE, user);
 
     }  on FirebaseAuthException catch (e) {
 

@@ -28,6 +28,13 @@ dependencies:
   location: ^3.0.0
   flutter_google_places: ^0.2.6
 
+  # Api
+  http: ^0.12.2
+  flutter_phone_direct_caller: ^1.0.1
+
+  # Widget
+  flutter_search_bar: ^2.1.0
+
   # Hash
   crypto: ^2.1.0
   common_utils: ^1.2.1
@@ -49,7 +56,9 @@ flutter:
   uses-material-design: true
 
   assets:
+    - res/assets/img/macron.jpg
     - res/assets/img/appLogo.png
+    - res/assets/img/passport.jpg
 
     - res/assets/img/loginBackground.jpg
     - res/assets/img/facebook-logo.png

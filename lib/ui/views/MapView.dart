@@ -6,6 +6,7 @@ import 'package:mobilitem2miage/core/services/LocationService.dart';
 import 'package:mobilitem2miage/core/services/MapService.dart';
 import 'package:mobilitem2miage/core/services/PlaceService.dart';
 import 'package:mobilitem2miage/core/services/dao/PointOfInterestDao.dart';
+import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/MapModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
 import 'package:provider/provider.dart';
@@ -34,9 +35,10 @@ class MapViewState extends State<MapView> {
     var locationProvider = Provider.of<LocationService>(context);
     var mapProvider = Provider.of<MapService>(context);
     var placeProvider = Provider.of<PlaceService>(context);
+    var appState = Provider.of<AppState>(context);
 
     return BaseView<MapModel>(
-      onModelReady: (model) async {
+      onModelReady: (model) {
       },
       builder: (context, model, child) => Scaffold(
         body: Stack(
@@ -84,7 +86,7 @@ class MapViewState extends State<MapView> {
                                     ),
                                     child: InkWell(
                                       onTap: () async {
-                                        await model.displayPlacesByTag(model.tags[index], placeProvider, locationProvider, pointOfInterestDao);
+                                        await model.displayPlacesByTag(model.tags[index], placeProvider, locationProvider, pointOfInterestDao, context, appState);
                                       },
                                       child: Column(
                                         children: [

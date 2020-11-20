@@ -4,14 +4,17 @@ import 'package:mobilitem2miage/core/services/AnalyticsService.dart';
 import 'package:mobilitem2miage/core/services/LocationService.dart';
 import 'package:mobilitem2miage/core/services/MapService.dart';
 import 'package:mobilitem2miage/core/services/PlaceService.dart';
+import 'package:mobilitem2miage/core/services/RemoveBgService.dart';
 import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
+import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/ui/Locator.dart';
 import 'package:mobilitem2miage/ui/Router.dart';
 import 'package:provider/provider.dart';
 
 import 'core/services/AuthService.dart';
-import 'core/services/SharedPreferencesService.dart';
 import 'core/services/dao/PointOfInterestDao.dart';
+
+final globalScaffoldKey = GlobalKey<ScaffoldState>();
 
 void main() async {
 
@@ -49,9 +52,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<LocationService>()),
         ChangeNotifierProvider(create: (_) => locator<PlaceService>()),
         ChangeNotifierProvider(create: (_) => locator<MapService>()),
-        ChangeNotifierProvider(create: (_) => locator<SharedPreferencesService>())
+        ChangeNotifierProvider(create: (_) => locator<RemoveBgService>()),
+        ChangeNotifierProvider(create: (_) => locator<AppState>())
       ],
       child: MaterialApp(
+        key: globalScaffoldKey,
         debugShowCheckedModeBanner: false,
         initialRoute: '/login',
         navigatorObservers: <NavigatorObserver>[AnalyticsService.observer],

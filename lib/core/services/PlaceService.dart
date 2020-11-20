@@ -58,6 +58,11 @@ class PlaceService extends ChangeNotifier {
     }
   }
 
+  Future<PlacesDetailsResponse> getPlaceDetails(PlacesSearchResult place) async {
+
+    return await _places.getDetailsByPlaceId(place.placeId);
+  }
+
   Future<List<PlacesSearchResult>> getNearbyPlaces(loc.LocationData center, String type) async {
 
     final location = Location(center.latitude, center.longitude);

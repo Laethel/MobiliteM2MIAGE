@@ -271,7 +271,7 @@ class SignUpViewState extends State<SignUpView> {
                               if (res.type == RESPONSE_TYPE.VALIDE) {
                                 Navigator.pushNamed(context, '/home');
                               } else {
-                                model.messageError = res.description;
+                                model.messageError = res.value;
                                 model.notifyListeners();
                               }
                             },

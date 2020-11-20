@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobilitem2miage/core/services/RemoveBgService.dart';
 import 'package:mobilitem2miage/core/viewmodels/HomeModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
 
@@ -18,6 +19,7 @@ class HomeViewState extends State<HomeView> {
     return BaseView<HomeModel>(
       builder: (context, model, child) {
         return Scaffold(
+          key: GlobalKey(),
           body: model.getChildrens()[model.currentIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(

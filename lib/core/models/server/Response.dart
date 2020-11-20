@@ -1,13 +1,15 @@
+import 'package:mobilitem2miage/core/models/client/User.dart';
+
 enum RESPONSE_TYPE {
   VALIDE,
   ERROR
 }
 
-class Response {
+class Response<T> {
 
   RESPONSE_TYPE type;
-  String description;
   bool isNewUser;
+  T value;
 
-  Response(this.type, this.description);
+  Response(this.type, this.value);
 }
