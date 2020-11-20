@@ -9,6 +9,7 @@ import 'package:mobilitem2miage/core/services/dao/PointOfInterestDao.dart';
 import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/MapModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsView.dart';
 import 'package:provider/provider.dart';
 
 class MapView extends StatefulWidget {
@@ -38,7 +39,8 @@ class MapViewState extends State<MapView> {
     var appState = Provider.of<AppState>(context);
 
     return BaseView<MapModel>(
-      onModelReady: (model) {
+      onModelReady: (model) async {
+
       },
       builder: (context, model, child) => Scaffold(
         body: Stack(

@@ -8,6 +8,7 @@ import 'package:mobilitem2miage/core/services/PlaceService.dart';
 import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/PlaceDetailsModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
+import 'package:mobilitem2miage/ui/views/MapView.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_webservice/places.dart';
 

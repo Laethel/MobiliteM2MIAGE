@@ -29,6 +29,8 @@ class PlaceViewState extends State<PlaceView> {
     var appState = Provider.of<AppState>(context);
 
     return BaseView<PlaceModel>(
+      onModelReady: (model) {
+      },
       builder: (context, model, child) => Scaffold(
         body: Container(
           child: ListView(
@@ -59,7 +61,11 @@ class PlaceViewState extends State<PlaceView> {
                                 padding: EdgeInsets.all(10.0),
                                 child: InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesVisited[index]);
+                                    /// Push to PlaceDetailsView of place tapped
+                                    Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesVisited[index]).then((value) {
+                                      /// This is for reload Card after add or remove visited
+                                      model.notifyListeners();
+                                    });
                                   },
                                   child: Card(
                                     child: Padding(
@@ -127,7 +133,11 @@ class PlaceViewState extends State<PlaceView> {
                               padding: EdgeInsets.all(10.0),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesLiked[index]);
+                                  /// Push to PlaceDetailsView of place tapped
+                                  Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesLiked[index]).then((value) {
+                                    /// This is for reload Card after add or remove favorites
+                                    model.notifyListeners();
+                                  });
                                 },
                                 child: Card(
                                   child: Padding(
