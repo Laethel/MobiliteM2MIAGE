@@ -8,7 +8,7 @@ import 'package:mobilitem2miage/core/services/RemoveBgService.dart';
 import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
 import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/ui/Locator.dart';
-import 'package:mobilitem2miage/ui/Router.dart';
+import 'package:mobilitem2miage/ui/Router.dart' as localRouter;
 import 'package:provider/provider.dart';
 
 import 'core/services/AuthService.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/login',
         navigatorObservers: <NavigatorObserver>[AnalyticsService.observer],
-        onGenerateRoute: Router.generateRoute,
+        onGenerateRoute: localRouter.Router.generateRoute,
       )
     );
   }
