@@ -26,18 +26,20 @@ dependencies:
   # Map & Location
   google_maps_flutter: ^0.5.33
   location: ^3.0.0
+  latlong: ^0.6.1
   flutter_google_places: ^0.2.6
 
   # Api
   http: ^0.12.2
   flutter_phone_direct_caller: ^1.0.1
 
-  # Widget
-  flutter_search_bar: ^2.1.0
-
-  # Hash
+  # Utils
   crypto: ^2.1.0
   common_utils: ^1.2.1
+  json_serializable: ^3.5.0
+
+  # Widget
+  flutter_search_bar: ^2.1.0
 
   # Dependency Injection
   get_it: ^1.0.3
@@ -48,6 +50,8 @@ dependencies:
   google_fonts: ^1.1.1
 
 dev_dependencies:
+  # Run build command : "flutter pub run build_runner build --delete-conflicting-outputs"
+  build_runner: ^1.7.1
   flutter_test:
     sdk: flutter
 

@@ -48,7 +48,7 @@ class AuthService extends ChangeNotifier {
           password: password
       );
 
-      user.createdOn = Timestamp.fromDate(DateTime.now());
+      user.createdOn = DateTime.now();
       user.id = uuid.v1();
       userDao.add(user);
 
@@ -124,13 +124,16 @@ class AuthService extends ChangeNotifier {
       AnalyticsService.analytics.logLogin(loginMethod: "GoogleSignIn");
 
       model.User user = model.User(
-          id: uuid.v1(),
-          lastName: this.user.displayName.split(" ")[1],
-          firstName: this.user.displayName.split(" ")[0],
-          email: this.user.email,
-          birthday: Timestamp.fromDate(DateTime.now()),
-          createdOn: Timestamp.fromDate(DateTime.now()),
-          gender: "N/A"
+        id: uuid.v1(),
+        lastName: this.user.displayName.split(" ")[1],
+        firstName: this.user.displayName.split(" ")[0],
+        email: this.user.email,
+        birthday: DateTime.now(),
+        createdOn: DateTime.now(),
+        gender: "N/A",
+        favoriteThemes: [
+          "gym"
+        ]
       );
 
       /// If is a new user, then we create a new User in firestore

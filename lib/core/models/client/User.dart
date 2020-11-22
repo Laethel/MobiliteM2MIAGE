@@ -1,38 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'User.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class User {
 
   String id;
+
   String lastName;
+
   String firstName;
+
   String email;
+
   String gender;
-  Timestamp birthday;
-  Timestamp createdOn;
 
-  User({this.id, @required this.lastName, @required this.firstName, @required this.email, @required this.birthday, this.createdOn, this.gender});
+  DateTime birthday;
 
-  /// Used by SharedPreferencesService to serialize/deserialize User object
-  User.fromJson(Map snapshot) :
-        id = snapshot['id'] ?? '',
-        lastName = snapshot['lastName'] ?? '',
-        firstName = snapshot['firstName'] ?? '',
-        email = snapshot['email'] ?? '',
-        birthday = Timestamp.fromMillisecondsSinceEpoch(int.parse(snapshot['birthday']) * 1000) ?? '',
-        createdOn = Timestamp.fromMillisecondsSinceEpoch(int.parse(snapshot['createdOn']) * 1000) ?? '',
-        gender = snapshot['gender'] ?? '';
+  DateTime createdOn;
 
-  toJson() {
+  String location;
 
-    return {
-      "id": id,
-      "lastName": lastName,
-      "firstName": firstName,
-      "email": email,
-      "birthday": birthday.seconds.toString(),
-      "createdOn": createdOn.seconds.toString(),
-      "gender": gender
-    };
-  }
+  List<String> favoriteThemes;
+
+  User({this.id, @required this.lastName, @required this.firstName, @required this.email, @required this.birthday, this.createdOn, this.gender, this.location, this.favoriteThemes});
+
+  factory User.fromJson(Map<String,dynamic> data) => _$UserFromJson(data);
+
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }

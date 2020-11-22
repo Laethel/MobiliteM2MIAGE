@@ -21,10 +21,9 @@ class PointOfInterestDao extends BaseDao<PointOfInterest> {
   Future<List<PointOfInterest>> fetch() async {
 
     var result = await super.firestore.getDataCollection();
-    super.objects = result.docs
+    return result.docs
         .map((doc) => PointOfInterest.fromMap(doc.data()))
         .toList();
-    return super.objects;
   }
 
   @override
@@ -49,9 +48,20 @@ class PointOfInterestDao extends BaseDao<PointOfInterest> {
   }
 
   @override
-  Future update(PointOfInterest data, String id) async {
+  Future update(PointOfInterest data, Map<String, dynamic> changes) async {
 
-    var result  = await firestore.updateDocument(data.toJson(), id) ;
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection(super.collectionName)
+        .where("id", isEqualTo: data.id)
+        .limit(1)
+        .get()
+        .then((document) {
+      document.docs.forEach((doc)=> {
+        doc.reference.update(changes)
+      });
+      return;
+    });
+
     return;
   }
 }

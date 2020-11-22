@@ -21,15 +21,15 @@ void main() async {
   /// Allow to use main as async
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Gets the user's current location when opening the app
-  LocationService location = LocationService();
-  location.currentLocation = await location.getCurrentLocation();
-
   /// Initialize Firebase App to use Firebase Services
   await Firebase.initializeApp();
 
   /// Initizalize Locator to use Services as depencies injection
   setupLocator();
+
+  /// Gets the user's current location when opening the app
+  LocationService locationService = LocationService();
+  locationService.currentLocation = await locationService.getCurrentLocation();
 
   runApp(MyApp());
 }

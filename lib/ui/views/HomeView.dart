@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mobilitem2miage/core/services/LocationService.dart';
 import 'package:mobilitem2miage/core/services/RemoveBgService.dart';
+import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
+import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/HomeModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
 
@@ -16,7 +20,16 @@ class HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+
+    var locationProvider = Provider.of<LocationService>(context);
+    var userDao = Provider.of<UserDao>(context);
+    var appState = Provider.of<AppState>(context);
+
     return BaseView<HomeModel>(
+      onModelReady: (model) {
+        /// Get user location everytime it change
+        model.updateUserLocation(locationProvider, userDao, appState.user);
+      },
       builder: (context, model, child) {
         return Scaffold(
           key: GlobalKey(),

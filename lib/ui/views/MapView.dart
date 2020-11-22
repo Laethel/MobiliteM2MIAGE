@@ -6,6 +6,7 @@ import 'package:mobilitem2miage/core/services/LocationService.dart';
 import 'package:mobilitem2miage/core/services/MapService.dart';
 import 'package:mobilitem2miage/core/services/PlaceService.dart';
 import 'package:mobilitem2miage/core/services/dao/PointOfInterestDao.dart';
+import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
 import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/MapModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
@@ -32,6 +33,7 @@ class MapViewState extends State<MapView> {
   @override
   Widget build(BuildContext context) {
 
+    var userDao = Provider.of<UserDao>(context);
     var pointOfInterestDao = Provider.of<PointOfInterestDao>(context);
     var locationProvider = Provider.of<LocationService>(context);
     var mapProvider = Provider.of<MapService>(context);
@@ -59,6 +61,8 @@ class MapViewState extends State<MapView> {
                 model.listenLocation(locationProvider);
                 mapProvider.initMapStyle(model.controller);
                 placeProvider.initTags(model.tags);
+                appState.user.location = locationProvider.currentLocation.latitude.toString() + "," + locationProvider.currentLocation.longitude.toString();
+                userDao.update(appState.user, {'location': locationProvider.currentLocation.latitude.toString() + "," + locationProvider.currentLocation.longitude.toString()});
                 model.notifyListeners();
               },
             ),

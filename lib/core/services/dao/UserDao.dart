@@ -13,18 +13,27 @@ class UserDao extends BaseDao<User> {
   @override
   Future<void> add(User data) async {
 
-    var result = await super.firestore.addDocument(data.toJson());
+    return await super.firestore.addDocument(data.toJson());
     return;
+  }
+
+  @override
+  Future<List<User>> find(String condition, dynamic value) async {
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection(super.collectionName)
+        .where(condition, isEqualTo: value)
+        .get();
+
+    return result.docs.map((doc) => User.fromJson(doc.data())).toList();
   }
 
   @override
   Future<List<User>> fetch() async {
 
     var result = await super.firestore.getDataCollection();
-    super.objects = result.docs
+    return result.docs
         .map((doc) => User.fromJson(doc.data()))
         .toList();
-    return super.objects;
   }
 
   @override
@@ -49,9 +58,20 @@ class UserDao extends BaseDao<User> {
   }
 
   @override
-  Future update(User data, String id) async {
+  Future update(User data, Map<String, dynamic> changes) async {
 
-    var result  = await firestore.updateDocument(data.toJson(), id) ;
+    final QuerySnapshot result = await FirebaseFirestore.instance
+      .collection(super.collectionName)
+      .where("email", isEqualTo: data.email)
+      .limit(1)
+      .get()
+      .then((document) {
+        document.docs.forEach((doc)=> {
+          doc.reference.update(changes)
+        });
+        return;
+      });
+
     return;
   }
 }

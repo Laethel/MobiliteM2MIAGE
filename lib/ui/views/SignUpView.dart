@@ -4,11 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobilitem2miage/core/models/client/User.dart';
+import 'package:mobilitem2miage/core/services/AuthService.dart';
+import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/LoginModel.dart';
 import 'package:mobilitem2miage/core/viewmodels/SignUpModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
 import 'package:mobilitem2miage/core/models/server/Response.dart';
 import 'package:mobilitem2miage/ui/widgets/WTextField.dart';
+import 'package:provider/provider.dart';
 
 class SignUpView extends StatefulWidget {
 
@@ -29,6 +32,8 @@ class SignUpViewState extends State<SignUpView> {
 
   @override
   Widget build(BuildContext context) {
+
+    var appState = Provider.of<AppState>(context);
 
     return BaseView<SignUpModel>(
       builder: (context, model, child) =>  Scaffold(
@@ -269,6 +274,7 @@ class SignUpViewState extends State<SignUpView> {
 
                               /// If signUp is valide, login and go to homeview
                               if (res.type == RESPONSE_TYPE.VALIDE) {
+                                appState.user = res.value;
                                 Navigator.pushNamed(context, '/home');
                               } else {
                                 model.messageError = res.value;

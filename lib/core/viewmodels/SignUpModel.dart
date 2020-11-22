@@ -17,7 +17,7 @@ class SignUpModel extends BaseModel {
   TextEditingController password = TextEditingController();
   TextEditingController passwordConfirm = TextEditingController();
   String gender;
-  Timestamp birthday;
+  DateTime birthday;
   String birthdayString = "Date de naissance";
 
   Response isFormValid() {
@@ -76,7 +76,7 @@ class SignUpModel extends BaseModel {
         firstDate: DateTime(1920, 8),
         lastDate: DateTime.now());
     if (picked != null && picked != this.birthday) {
-      this.birthday = Timestamp.fromDate(picked);
+      this.birthday = picked;
       this.birthdayString = picked.day.toString() + "/" + picked.month.toString() + "/" + picked.year.toString();
       this.notifyListeners();
     }
