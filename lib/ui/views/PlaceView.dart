@@ -31,101 +31,28 @@ class PlaceViewState extends State<PlaceView> {
     return BaseView<PlaceModel>(
       onModelReady: (model) {
       },
-      builder: (context, model, child) => Scaffold(
-        body: Container(
-          child: ListView(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text(
-                      "Visités",
-                      style: GoogleFonts.roboto(
-                          fontSize: 22.0
-                      ),
+      builder: (context, model, child) => Container(
+        child: ListView(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    "Visités",
+                    style: GoogleFonts.roboto(
+                        fontSize: 22.0
                     ),
                   ),
-                  Divider(),
-                  Container(
-                      height: 200.0,
-                      child: appState.placesVisited.isNotEmpty ? ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: appState.placesVisited.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              width: 300,
-                              child: Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    /// Push to PlaceDetailsView of place tapped
-                                    Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesVisited[index]).then((value) {
-                                      /// This is for reload Card after add or remove visited
-                                      model.notifyListeners();
-                                    });
-                                  },
-                                  child: Card(
-                                    child: Padding(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: Stack(
-                                          children: [
-                                            Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                appState.placesVisited[index].name,
-                                                textAlign: TextAlign.center,
-                                                style: GoogleFonts.roboto(
-                                                  fontSize: 14.0,
-                                                ),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              right: 1.0,
-                                              bottom: 1.0,
-                                              child: Row(
-                                                children: [
-                                                  Text(appState.placesVisited[index].rating.toString()),
-                                                  Icon(Icons.star, color: Colors.yellow)
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                      ) : Center(
-                        child: Text("Vous n'avez visité aucun point d'intérêt"),
-                      )
-                  )
-                ],
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Text(
-                      "Favoris",
-                      style: GoogleFonts.roboto(
-                          fontSize: 22.0
-                      ),
-                    ),
-                  ),
-                  Divider(),
-                  Container(
+                ),
+                Divider(),
+                Container(
                     height: 200.0,
-                    child: appState.placesLiked.isNotEmpty ? ListView.builder(
+                    child: appState.placesVisited.isNotEmpty ? ListView.builder(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        itemCount: appState.placesLiked.length,
+                        itemCount: appState.placesVisited.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             width: 300,
@@ -134,8 +61,8 @@ class PlaceViewState extends State<PlaceView> {
                               child: InkWell(
                                 onTap: () {
                                   /// Push to PlaceDetailsView of place tapped
-                                  Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesLiked[index]).then((value) {
-                                    /// This is for reload Card after add or remove favorites
+                                  Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesVisited[index]).then((value) {
+                                    /// This is for reload Card after add or remove visited
                                     model.notifyListeners();
                                   });
                                 },
@@ -147,7 +74,7 @@ class PlaceViewState extends State<PlaceView> {
                                           Align(
                                             alignment: Alignment.center,
                                             child: Text(
-                                              appState.placesLiked[index].name,
+                                              appState.placesVisited[index].name,
                                               textAlign: TextAlign.center,
                                               style: GoogleFonts.roboto(
                                                 fontSize: 14.0,
@@ -159,7 +86,7 @@ class PlaceViewState extends State<PlaceView> {
                                             bottom: 1.0,
                                             child: Row(
                                               children: [
-                                                Text(appState.placesLiked[index].rating.toString()),
+                                                Text(appState.placesVisited[index].rating.toString()),
                                                 Icon(Icons.star, color: Colors.yellow)
                                               ],
                                             ),
@@ -173,13 +100,84 @@ class PlaceViewState extends State<PlaceView> {
                           );
                         }
                     ) : Center(
-                      child: Text("Vous n'avez aucun favoris"),
+                      child: Text("Vous n'avez visité aucun point d'intérêt"),
                     )
+                )
+              ],
+            ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    "Favoris",
+                    style: GoogleFonts.roboto(
+                        fontSize: 22.0
+                    ),
+                  ),
+                ),
+                Divider(),
+                Container(
+                  height: 200.0,
+                  child: appState.placesLiked.isNotEmpty ? ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: appState.placesLiked.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          width: 300,
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: InkWell(
+                              onTap: () {
+                                /// Push to PlaceDetailsView of place tapped
+                                Navigator.pushNamed(context, "/placeDetails", arguments: appState.placesLiked[index]).then((value) {
+                                  /// This is for reload Card after add or remove favorites
+                                  model.notifyListeners();
+                                });
+                              },
+                              child: Card(
+                                child: Padding(
+                                    padding: EdgeInsets.all(10.0),
+                                    child: Stack(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.center,
+                                          child: Text(
+                                            appState.placesLiked[index].name,
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.roboto(
+                                              fontSize: 14.0,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 1.0,
+                                          bottom: 1.0,
+                                          child: Row(
+                                            children: [
+                                              Text(appState.placesLiked[index].rating.toString()),
+                                              Icon(Icons.star, color: Colors.yellow)
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      }
+                  ) : Center(
+                    child: Text("Vous n'avez aucun favoris"),
                   )
-                ],
-              ),
-            ],
-          )
+                )
+              ],
+            ),
+          ],
         )
       )
     );

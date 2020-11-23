@@ -42,9 +42,9 @@ class WTextFieldState extends State<WTextField> {
     return BaseView<WTextFieldModel>(
       builder: (context, model, child) => Theme(
         data: ThemeData(
-            primaryColor: Color(0xFF50627b),
-            accentColor: Colors.orange,
-            hintColor: Color(0xFF333333)
+          primaryColor: Color(0xFF50627b),
+          accentColor: Colors.orange,
+          hintColor: Color(0xFF333333)
         ),
         child: TextField(
           enabled: widget.enable,

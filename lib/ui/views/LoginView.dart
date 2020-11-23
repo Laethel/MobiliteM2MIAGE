@@ -151,6 +151,7 @@ class LoginViewState extends State<LoginView> {
                                   model.setState(ViewState.Idle);
 
                                   if (response.type == RESPONSE_TYPE.VALIDE) {
+                                    appState.user = response.value;
                                     Navigator.pushNamed(context, '/home');
                                   } else {
                                     model.messageError = response.value;

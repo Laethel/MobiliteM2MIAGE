@@ -14,6 +14,11 @@ import 'package:mobilitem2miage/ui/views/PlaceView.dart';
 class HomeModel extends BaseModel {
 
   int currentIndex = 0;
+  final pages = [
+    MapView(),
+    PlaceView(),
+    AccountView()
+  ];
 
   Future<void> updateUserLocation(LocationService locationService, UserDao userDao, User user) {
 
@@ -32,17 +37,6 @@ class HomeModel extends BaseModel {
         );
       }
     });
-  }
-
-  List<Widget> getChildrens() {
-
-    List<Widget> childrens = [
-      MapView(),
-      PlaceView(),
-      AccountView()
-    ];
-
-    return childrens;
   }
 
   void onTappedBar(int index) {

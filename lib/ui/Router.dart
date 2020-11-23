@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:mobilitem2miage/core/models/client/Post.dart';
 import 'package:mobilitem2miage/core/models/client/User.dart';
 import 'package:mobilitem2miage/ui/views/AccountView.dart';
 import 'package:mobilitem2miage/ui/views/HomeView.dart';
 import 'package:mobilitem2miage/ui/views/MapView.dart';
 import 'package:mobilitem2miage/ui/views/LoginView.dart';
-import 'package:mobilitem2miage/ui/views/PlaceDetailsView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsHomeView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsInformationsView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsPostReplyView.dart';
 import 'package:mobilitem2miage/ui/views/PlaceView.dart';
 import 'package:mobilitem2miage/ui/views/SearchUsersView.dart';
 import 'package:mobilitem2miage/ui/views/SignUpView.dart';
@@ -38,7 +41,12 @@ class Router {
       case '/placeDetails' :
         var place = settings.arguments as PlaceDetails;
         return MaterialPageRoute(
-            builder: (_)=> PlaceDetailsView(place: place)
+            builder: (_)=> PlaceDetailsHomeView(place: place)
+        );
+      case '/postReply' :
+        var post = settings.arguments as Post;
+        return MaterialPageRoute(
+            builder: (_)=> PlaceDetailsPostReplyView(post: post)
         );
       case '/account' :
         return MaterialPageRoute(

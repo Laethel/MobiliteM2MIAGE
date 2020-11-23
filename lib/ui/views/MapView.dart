@@ -10,7 +10,7 @@ import 'package:mobilitem2miage/core/services/dao/UserDao.dart';
 import 'package:mobilitem2miage/core/services/state/AppState.dart';
 import 'package:mobilitem2miage/core/viewmodels/MapModel.dart';
 import 'package:mobilitem2miage/ui/views/BaseView.dart';
-import 'package:mobilitem2miage/ui/views/PlaceDetailsView.dart';
+import 'package:mobilitem2miage/ui/views/PlaceDetailsHomeView.dart';
 import 'package:provider/provider.dart';
 
 class MapView extends StatefulWidget {

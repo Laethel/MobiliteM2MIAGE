@@ -33,7 +33,7 @@ class HomeViewState extends State<HomeView> {
       builder: (context, model, child) {
         return Scaffold(
           key: GlobalKey(),
-          body: model.getChildrens()[model.currentIndex],
+          body: model.pages[model.currentIndex],
           bottomNavigationBar: Container(
             decoration: BoxDecoration(
               boxShadow: [

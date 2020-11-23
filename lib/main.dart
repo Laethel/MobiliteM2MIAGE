@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 import 'core/services/AuthService.dart';
 import 'core/services/dao/PointOfInterestDao.dart';
+import 'core/services/dao/PostDao.dart';
 
 final globalScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => locator<PointOfInterestDao>()),
         ChangeNotifierProvider(create: (_) => locator<UserDao>()),
+        ChangeNotifierProvider(create: (_) => locator<PostDao>()),
         ChangeNotifierProvider(create: (_) => locator<AuthService>()),
         ChangeNotifierProvider(create: (_) => locator<LocationService>()),
         ChangeNotifierProvider(create: (_) => locator<PlaceService>()),
